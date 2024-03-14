@@ -9,7 +9,8 @@
         <div class="row">
             <div class="col-md-6">
 
-                <form method="post">
+                <form action="" method="post">
+                    {% csrf_token %}
                     <div class="mb-3">
                         <label for="name" class="form-label">Nombre y Apellido</label>
                         {{form.name}}
@@ -19,17 +20,27 @@
                         <label for="email" class="form-label">Correo Electrónico</label>
                         {{form.email}}
                         {{form.email.errors}}
-                        <!--<input type="email" class="form-control" id="email" aria-describedby="emailHelp">
-                        <div id="emailHelp" class="form-text">Nunca compartiremos el correo electrónico que indique a continuación</div>-->
                     </div>
                     <div class="mb-3">
                         <label for="message" class="form-label">Mensaje</label>
                         {{form.message}}
                         {{form.message.errors}}
-                        <!--<textarea class="form-control" id="message" name="message" placeholder="Ingrese su mensaje aquí" rows="4"></textarea>-->
+
                     </div>
-                    <input type="submit" class="btn btn-primary" value="Enviar Mensaje">
+                    <input type="submit" class="btn btn-primary" value="Enviar Mensaje" {%if 'ok' in request.GET%}disabled{%endif%}{%if 'error' in request.GET%}disabled{%endif%}>
                 </form>
+                
+                {%if 'ok' in request.GET%}
+                  <div class="alert alert-success mt-5" role="alert">
+                    <strong>El mensaje se ha enviado correctamente</strong>
+                  </div>
+                {%endif%}
+
+                {%if 'error' in request.GET%}
+                  <div class="alert alert-danger mt-5" role="alert">
+                    <strong>El mensaje no ha podido ser enviado. Inténtelo más tarde</strong>
+                  </div>
+                {%endif%}
 
             </div>
             
